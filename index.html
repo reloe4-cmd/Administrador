@@ -91,7 +91,9 @@ function generarCodigo(){
 const titulo = document.getElementById("titulo").value;
 const precio = document.getElementById("precio").value;
 const referencia = document.getElementById("referencia").value;
-const telefono = document.getElementById("telefono").value;
+
+// 🔥 limpiar teléfono
+const telefono = document.getElementById("telefono").value.replace(/\D/g, '');
 
 const colores = [
   ["Blanco", document.getElementById("imgBlanco").value],
@@ -213,6 +215,16 @@ function cambiarColor(){
       break;
     }
   }
+}
+
+function enviar(){
+  var mensaje =
+  "🛍️ NUEVO PEDIDO%0A%0A" +
+  "Producto: ${titulo}%0A" +
+  "Precio: ${precio}%0A" +
+  "Referencia: ${referencia}%0A%0A";
+
+  window.open("https://wa.me/${telefono}?text=" + encodeURIComponent(mensaje));
 }
 
 actualizarImagen();
