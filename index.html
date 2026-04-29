@@ -11,7 +11,6 @@ body{
   padding:20px;
   color:white;
 }
-
 .admin-box{
   max-width:700px;
   margin:auto;
@@ -19,14 +18,12 @@ body{
   padding:20px;
   border-radius:14px;
 }
-
 h1{
   text-align:center;
   color:#ABAA57;
   margin-bottom:20px;
   font-size:22px;
 }
-
 input, select, textarea{
   width:100%;
   margin-top:8px;
@@ -36,7 +33,6 @@ input, select, textarea{
   background:#2a2a2a;
   color:white;
 }
-
 button{
   width:100%;
   margin-top:12px;
@@ -48,7 +44,6 @@ button{
   font-weight:bold;
   cursor:pointer;
 }
-
 textarea{
   min-height:320px;
   resize:vertical;
@@ -201,8 +196,29 @@ if(productos[x].color===color.value){i=x;actualizar();}
 }
 
 function enviar(){
-let msg="🛍️ PEDIDO\\n"+titulo+"\\n"+precio+"\\nRef:"+referencia;
-window.open("https://wa.me/"+telefono+"?text="+encodeURIComponent(msg));
+
+var color=document.getElementById("color").value;
+var talla=document.getElementById("talla").value;
+var nombre=document.getElementById("nombre").value;
+var telefonoCliente=document.getElementById("telefonoCliente").value;
+var direccion=document.getElementById("direccion").value;
+var ciudad=document.getElementById("ciudad").value;
+var cp=document.getElementById("cp").value;
+
+var msg =
+"🛍️ PEDIDO\\n\\n"+
+"Producto: ${titulo}\\n"+
+"Precio: ${precio}\\n"+
+"Ref: ${referencia}\\n\\n"+
+"Color: "+color+"\\n"+
+"Talla: "+talla+"\\n\\n"+
+"Nombre: "+nombre+"\\n"+
+"Tel: "+telefonoCliente+"\\n"+
+"Dirección: "+direccion+"\\n"+
+"Ciudad: "+ciudad+"\\n"+
+"CP: "+cp;
+
+window.top.location.href = "https://wa.me/${telefono}?text=" + encodeURIComponent(msg);
 }
 
 actualizar();
