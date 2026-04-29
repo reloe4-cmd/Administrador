@@ -92,7 +92,7 @@ const titulo = document.getElementById("titulo").value;
 const precio = document.getElementById("precio").value;
 const referencia = document.getElementById("referencia").value;
 
-// 🔥 limpiar teléfono
+// limpiar teléfono
 const telefono = document.getElementById("telefono").value.replace(/\D/g, '');
 
 const colores = [
@@ -192,18 +192,12 @@ function next(){
   if(productos.length === 0) return;
   i = (i + 1) % productos.length;
   actualizarImagen();
-  if(document.getElementById("color").value !== ""){
-    document.getElementById("color").value = productos[i].color;
-  }
 }
 
 function prev(){
   if(productos.length === 0) return;
   i = (i - 1 + productos.length) % productos.length;
   actualizarImagen();
-  if(document.getElementById("color").value !== ""){
-    document.getElementById("color").value = productos[i].color;
-  }
 }
 
 function cambiarColor(){
@@ -218,17 +212,31 @@ function cambiarColor(){
 }
 
 function enviar(){
+  var color = document.getElementById("color").value;
+  var talla = document.getElementById("talla").value;
+  var nombre = document.getElementById("nombre").value;
+  var telefonoCliente = document.getElementById("telefonoCliente").value;
+  var direccion = document.getElementById("direccion").value;
+  var ciudad = document.getElementById("ciudad").value;
+  var cp = document.getElementById("cp").value;
+
   var mensaje =
-  "🛍️ NUEVO PEDIDO%0A%0A" +
-  "Producto: ${titulo}%0A" +
-  "Precio: ${precio}%0A" +
-  "Referencia: ${referencia}%0A%0A";
+  "🛍️ *NUEVO PEDIDO*\\n\\n" +
+  "Producto: ${titulo}\\n" +
+  "Precio: ${precio}\\n" +
+  "Referencia: ${referencia}\\n\\n" +
+  "Color: " + color + "\\n" +
+  "Talla: " + talla + "\\n\\n" +
+  "Nombre: " + nombre + "\\n" +
+  "Teléfono: " + telefonoCliente + "\\n" +
+  "Dirección: " + direccion + "\\n" +
+  "Ciudad: " + ciudad + "\\n" +
+  "CP: " + cp;
 
   window.open("https://wa.me/${telefono}?text=" + encodeURIComponent(mensaje));
 }
 
 actualizarImagen();
-document.getElementById("color").value = "";
 
 <\/script>
 
