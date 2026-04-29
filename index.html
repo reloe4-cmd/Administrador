@@ -1,0 +1,233 @@
+<!DOCTYPE html><html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel Admin Productos</title>
+
+<style>
+body{
+  background:#0f0f0f;
+  font-family:Arial;
+  padding:20px;
+  color:white;
+}
+
+.admin-box{
+  max-width:700px;
+  margin:auto;
+  background:#171616;
+  padding:20px;
+  border-radius:14px;
+}
+
+h1{
+  text-align:center;
+  color:#ABAA57;
+  margin-bottom:20px;
+  font-size:22px;
+}
+
+input, select, textarea{
+  width:100%;
+  margin-top:8px;
+  padding:12px;
+  border:none;
+  border-radius:8px;
+  background:#2a2a2a;
+  color:white;
+}
+
+button{
+  width:100%;
+  margin-top:12px;
+  background:#ABAA57;
+  color:black;
+  padding:12px;
+  border:none;
+  border-radius:8px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+textarea{
+  min-height:320px;
+  resize:vertical;
+}
+</style>
+</head>
+
+<body>
+
+<div class="admin-box">
+  <h1>Panel Admin Productos</h1>
+
+  <input id="titulo" placeholder="Nombre producto">
+  <input id="precio" placeholder="Precio (ej: 15€)">
+  <input id="referencia" placeholder="Referencia">
+
+  <input id="imgBlanco" placeholder="URL Blanco (varias separadas por comas)">
+  <input id="imgNegro" placeholder="URL Negro (varias separadas por comas)">
+  <input id="imgGris" placeholder="URL Gris (varias separadas por comas)">
+  <input id="imgRojo" placeholder="URL Rojo (varias separadas por comas)">
+  <input id="imgAzul" placeholder="URL Azul (varias separadas por comas)">
+  <input id="imgVerde" placeholder="URL Verde (varias separadas por comas)">
+  <input id="imgBeige" placeholder="URL Beige (varias separadas por comas)">
+  <input id="imgRosa" placeholder="URL Rosa (varias separadas por comas)">
+  <input id="imgMarron" placeholder="URL Marrón (varias separadas por comas)">
+  <input id="imgAmarillo" placeholder="URL Amarillo (varias separadas por comas)">
+
+  <input id="telefono" placeholder="WhatsApp (34600000000)">
+
+  <button onclick="generarCodigo()">Generar producto</button>
+
+  <textarea id="resultado" placeholder="Aquí aparecerá el código listo para copiar"></textarea>
+
+  <button onclick="copiarCodigo()">📋 Copiar código</button>
+</div>
+
+<script>
+function generarCodigo(){
+
+const titulo = document.getElementById("titulo").value;
+const precio = document.getElementById("precio").value;
+const referencia = document.getElementById("referencia").value;
+const telefono = document.getElementById("telefono").value;
+
+const colores = [
+  ["Blanco", document.getElementById("imgBlanco").value],
+  ["Negro", document.getElementById("imgNegro").value],
+  ["Gris", document.getElementById("imgGris").value],
+  ["Rojo", document.getElementById("imgRojo").value],
+  ["Azul", document.getElementById("imgAzul").value],
+  ["Verde", document.getElementById("imgVerde").value],
+  ["Beige", document.getElementById("imgBeige").value],
+  ["Rosa", document.getElementById("imgRosa").value],
+  ["Marrón", document.getElementById("imgMarron").value],
+  ["Amarillo", document.getElementById("imgAmarillo").value]
+].filter(c => c[1] !== "");
+
+let opcionesColor = '<option value="" selected>🎨 Color</option>';
+let arrayProductos = '';
+let primeraImagen = '';
+
+colores.forEach((c) => {
+  opcionesColor += `<option value="${c[0]}">${c[0]}</option>`;
+
+  const imagenes = c[1].split(",");
+
+  imagenes.forEach((img) => {
+    const limpia = img.trim();
+
+    if(limpia !== ""){
+      if(primeraImagen === ''){
+        primeraImagen = limpia;
+      }
+
+      arrayProductos += `${arrayProductos !== '' ? ',' : ''}{color:"${c[0]}",imagen:"${limpia}"}`;
+    }
+  });
+});
+
+const codigo = `<iframe srcdoc='
+
+<div style="max-width:240px;font-family:Arial;padding:12px;position:relative;
+background:linear-gradient(135deg,#1a1a1a,#2a2a2a,#111);
+border-radius:14px;
+box-shadow:0 8px 20px rgba(0,0,0,0.5);">
+
+<img id="img" src="${primeraImagen}" style="width:100%;height:160px;object-fit:cover;border-radius:10px;">
+
+<button onclick="prev()" style="position:absolute;top:70px;left:6px;background:rgba(0,0,0,0.6);color:white;border:none;border-radius:50%;width:26px;height:26px;">‹</button>
+<button onclick="next()" style="position:absolute;top:70px;right:6px;background:rgba(0,0,0,0.6);color:white;border:none;border-radius:50%;width:26px;height:26px;">›</button>
+
+<h3 style="margin:10px 0 2px;font-size:14px;color:#ffffff;">💎${titulo} ${precio}</h3>
+<p style="font-size:10px;color:#bdbdbd;margin:2px 0;">Ref: ${referencia}</p>
+
+<select id="color" onchange="cambiarColor()" style="width:100%;margin-top:6px;
+background:#2a2a2a;color:white;border:none;border-radius:6px;padding:6px;">
+${opcionesColor}
+</select>
+
+<select id="talla" style="width:100%;margin-top:5px;
+background:#2a2a2a;color:white;border:none;border-radius:6px;padding:6px;">
+<option value="" selected>🏷️ Talla</option>
+<option value="S">S</option>
+<option value="M">M</option>
+<option value="L">L</option>
+</select>
+
+<details style="color:#e0e0e0;margin-top:6px;font-size:11px;">
+<summary>🚨📦 Dirección envío</summary>
+<input id="nombre" placeholder="Nombre" style="width:100%;margin-top:5px;background:#1f1f1f;color:white;border:none;padding:6px;border-radius:6px;">
+<input id="telefonoCliente" placeholder="Teléfono" style="width:100%;margin-top:5px;background:#1f1f1f;color:white;border:none;padding:6px;border-radius:6px;">
+<input id="direccion" placeholder="Dirección" style="width:100%;margin-top:5px;background:#1f1f1f;color:white;border:none;padding:6px;border-radius:6px;">
+<input id="ciudad" placeholder="Ciudad" style="width:100%;margin-top:5px;background:#1f1f1f;color:white;border:none;padding:6px;border-radius:6px;">
+<input id="cp" placeholder="CP" style="width:100%;margin-top:5px;background:#1f1f1f;color:white;border:none;padding:6px;border-radius:6px;">
+</details>
+
+<button onclick="enviar()" style="width:100%;margin-top:10px;
+background:#25D366;color:white;padding:10px;border:none;border-radius:8px;font-weight:bold;">
+💬 Comprar por WhatsApp
+</button>
+
+</div>
+
+<script>
+var i = 0;
+var productos = [${arrayProductos}];
+
+function actualizarImagen(){
+  if(productos.length > 0){
+    document.getElementById("img").src = productos[i].imagen;
+  }
+}
+
+function next(){
+  if(productos.length === 0) return;
+  i = (i + 1) % productos.length;
+  actualizarImagen();
+  if(document.getElementById("color").value !== ""){
+    document.getElementById("color").value = productos[i].color;
+  }
+}
+
+function prev(){
+  if(productos.length === 0) return;
+  i = (i - 1 + productos.length) % productos.length;
+  actualizarImagen();
+  if(document.getElementById("color").value !== ""){
+    document.getElementById("color").value = productos[i].color;
+  }
+}
+
+function cambiarColor(){
+  var c = document.getElementById("color").value;
+  for(var x = 0; x < productos.length; x++){
+    if(productos[x].color === c){
+      i = x;
+      actualizarImagen();
+      break;
+    }
+  }
+}
+
+actualizarImagen();
+document.getElementById("color").value = "";
+
+<\/script>
+
+' style="width:100%;height:620px;border:none;"></iframe>`;
+
+document.getElementById("resultado").value = codigo;
+}
+
+function copiarCodigo(){
+  const textarea = document.getElementById("resultado");
+  textarea.select();
+  document.execCommand("copy");
+  alert("✅ Código copiado");
+}
+</script>
+
+</body>
+</html>
